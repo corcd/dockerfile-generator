@@ -25,12 +25,12 @@ describe('GeneratorTests', () => {
 
 	it('Valid JSON - RUN in shell form', () => {
 		const generateResult = Generator.generateDockerFile({ from: { baseImage: 'nginx:latest' }, run: 'test_runnable.sh' })
-		generateResult.should.equal('FROM nginx:latest\nRUN [ "test_runnable.sh" ]\n')
+		generateResult.should.equal('FROM nginx:latest\nRUN test_runnable.sh\n')
 	})
 
 	it('Valid JSON - RUN in exec form', () => {
 		const generateResult = Generator.generateDockerFile({ from: { baseImage: 'nginx:latest' }, run: ['test_runnable.sh', 'param1', 'param2'] })
-		generateResult.should.equal('FROM nginx:latest\nRUN [ "test_runnable.sh", "param1", "param2" ]\n')
+		generateResult.should.equal('FROM nginx:latest\nRUN test_runnable.sh\nRUN param1\nRUN param2\n')
 	})
 
 	it('Valid JSON - FROM, ARG', () => {
@@ -197,7 +197,7 @@ describe('GeneratorTests', () => {
 				'from-1': { baseImage: 'nginx:latest' }
 			},
 			{
-				run: ['adduser', '--disabled-password', '-gecos', '', 'testuser']
+				run: 'adduser testuser'
 			},
 			{
 				volumes: ['/home/testuser/app']
@@ -248,7 +248,7 @@ describe('GeneratorTests', () => {
 				shell: ['/bin/bash', '-c', 'echo', 'hello']
 			}
 		])
-		generateResult.should.equal('FROM nginx:latest\nRUN [ "adduser", "--disabled-password", "-gecos", "", "testuser" ]\nVOLUME /home/testuser/app\nUSER testuser\nWORKDIR /home/testuser/app\nLABEL name=value\nENV env1=value1\nENV env2=value2\nADD test.run /home/testuser/app/test.run\nCOPY test.cmd /home/testuser/app/test.cmd\nENTRYPOINT [ "tail" ]\nCMD [ "-f", "/dev/null" ]\nEXPOSE 80/tcp\nARG value1\nARG value2\nSTOPSIGNAL stop\nSHELL [ "/bin/bash", "-c", "echo", "hello" ]\n')
+		generateResult.should.equal('FROM nginx:latest\nRUN adduser testuser\nVOLUME /home/testuser/app\nUSER testuser\nWORKDIR /home/testuser/app\nLABEL name=value\nENV env1=value1\nENV env2=value2\nADD test.run /home/testuser/app/test.run\nCOPY test.cmd /home/testuser/app/test.cmd\nENTRYPOINT [ "tail" ]\nCMD [ "-f", "/dev/null" ]\nEXPOSE 80/tcp\nARG value1\nARG value2\nSTOPSIGNAL stop\nSHELL [ "/bin/bash", "-c", "echo", "hello" ]\n')
 	})
 
 

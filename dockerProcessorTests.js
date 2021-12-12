@@ -12,11 +12,11 @@ describe('DockerProcessorTests - Fragments', () => {
 	})
 
 	it('RUN - string', () => {
-		processor.processRun('test.run').should.equal('RUN [ "test.run" ]')
+		processor.processRun('test.run').should.equal('RUN test.run')
 	})
 
 	it('RUN - array', () => {
-		processor.processRun(['test.run', '-b', 'testparam']).should.equal('RUN [ "test.run", "-b", "testparam" ]')
+		processor.processRun(['test.run -first', 'test.run -second', 'test.run -third']).should.equal('RUN test.run -first\nRUN test.run -second\nRUN test.run -third')
 	})
 
 	it('CMD - string', () => {

@@ -1,11 +1,14 @@
 {
-  "name": "dockerfile-generator",
-  "version": "4.0.12",
+  "name": "@gdyfe/dockerfile-generator",
+  "version": "4.1.0",
   "description": "Dockerfile generator for NodeJS",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "index.js",
   "scripts": {
     "generate-tests": "./node_modules/mocha/bin/mocha generateTests.js",
-    "convertjson-tests": "./node_modules/mocha/bin/mocha convertToJSONTests.js",
     "coverage": "nyc npm run test",
     "test": "./node_modules/mocha/bin/mocha *Tests.js",
     "test-single": "./node_modules/mocha/bin/mocha $1",
@@ -17,7 +20,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/tudvari/dockerfile-generator.git"
+    "url": "https://github.com/corcd/dockerfile-generator.git"
   },
   "author": "Tibor Udvari <tudvari@tudvari.com> (https://tudvari.com)",
   "license": "MIT",
